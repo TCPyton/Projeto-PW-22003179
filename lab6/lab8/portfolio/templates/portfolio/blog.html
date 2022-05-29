@@ -1,0 +1,11 @@
+{% extends 'portfolio/layout.html' %}
+    {% block main %}
+        {% for blog in posts %}
+            <p> 
+            {{ blog.author}}
+            {{ blog.description}}
+            <a href="{% url 'portfolio:editBlog' blog.id %}" class="btn btn-warning">Editar</a>
+            </p>
+        {% endfor %}
+            <a href="{% url 'portfolio:newBlog' %}" class="btn btn-success btn-block">Novo Post</a>
+    {% endblock %}
