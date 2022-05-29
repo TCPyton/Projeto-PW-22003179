@@ -11,53 +11,33 @@ from django.contrib.auth.decorators import login_required
 from .models import * 
 from .forms import *
 # Create your views here.
+def index_view(request):
+    agora = datetime.datetime.now()
+    local = 'Lisboa'
+    topicos = ['HTML', 'CSS', 'Python', 'Django', 'JavaScript']
 
-def view_login(request):
+    context = {
+        'hora': agora.hour,
+        'local': local,
+        'topicos': topicos,
+    }
 
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(
-            request,
-            username=username,
-            password=password)
-
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse('portfolio:home'))
-        else:
-            return render(request, 'portfolio/login.html', {
-                'message': 'Credenciais invalidas.'
-            })
-
-    return render(request, 'portfolio/login.html')
-
-
-def view_logout(request):
-    logout(request)
-    return render(request, 'portfolio/login.html', {
-                'message': 'Foi desconetado.'})
-
-
+    return render(request, 'portfolio/home.html', context)
 
 def blog_page_view(request):
     context = {'posts' : Blog.objects.all()}
     return render(request, 'portfolio/blog.html', context)
 
-
+@login_required
 def new_blog_post(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('tarefas:login'))
     form = BlogForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse('portfolio:blog'))
+        return HttpResponseRedirect(reverse('portfolio/blog.html'))
 
     context = {'form': form}
 
     return render(request, 'portfolio/blog_new_post.html', context)
-
 
 @login_required
 def edit_blog_post(request, blog_id):
@@ -72,10 +52,9 @@ def edit_blog_post(request, blog_id):
     return render(request, 'portfolio/blog_edit.html', context)
 
 def delete_blog_post(request, blog_id):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('tarefas:login'))
     Blog.objects.get(request=blog_id).delete()
     return HttpResponseRedirect(reverse('portfolio/blog.html'))
+
 
 def quizz_score(request):
     questScore = 0
@@ -105,55 +84,29 @@ def quizz(request):
 def design_graphics(objects):
 
     data = sorted(objects, key=lambda t: t.score, reverse=True)
+    
     plt.figure(figsize=(10, 5))
-    plt.barh(data.keys(),data.values())
+    plt.barh(data.,data.values())
     plt.title("Pontuação dos Users")
     plt.xlabel("Nomes")
     plt.ylabel("Pontuação")
     plt.savefig('portfolio/static/portfolio/images/final_graphic.png')
 
-def quizz_page_view(request):
-    name = request.POST['name']
-    question1 = request.POST('question1')
-    question2 = request.get('question2')
-    question3 = request.get('question3')
-    question4 = request.get('question4')
-    question5 = request.get('question5')
-    Quizz = (name,question1,question2,question3,question4,question5)
-    Quizz.save()
-    quizz(Quizz)
-    form = QuizzForm(request.POST, use_required_attribute=False)
-    
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(request.path_info)
-
-    context = {'form': form}
-
-    return render(request, 'portfolio/quizz.html', context)
-
 
 def home_page_view(request):
-	return render(request, 'portfolio/layout.html')
+	return render(request, 'portfolio/home.html')
 
-def degree_page_view(request):
-    return render(request, 'portfolio/degree.html')
+def apresentacao_view(request):
+	return render(request, 'portfolio/apresentacao.html')
 
-def contacts_page_view(request):
-    return render(request, 'portfolio/contacts.html')
+def formacao_view(request):
+	return render(request, 'portfolio/formacao.html')
 
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
+def projetos_view(request):
+	return render(request, 'portfolio/projetos.html')
 
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
-
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
-
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
+def competencias_view(request):
+	return render(request, 'portfolio/competencias.html')
 
 
-def resolution_path(instance, filename):
-    return f'users/{instance.id}/'
+

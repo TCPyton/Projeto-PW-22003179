@@ -1,3 +1,5 @@
+from sqlite3 import IntegrityError
+from unicodedata import name
 from django.db import models
 from datetime import datetime
 
@@ -8,8 +10,8 @@ class Blog(models.Model):
       data = models.DateField(default=datetime.now)
       title = models.CharField(max_length=30)
       description = models.CharField(max_length= 1000)
-      link = models.URLField(default= 'www.google.com')
-      image = models.ImageField(default = '')
+      link = models.URLField(blank=True)
+      image = models.ImageField(upload_to='portfolio/static/portfolio/images', blank=True)
       date_criated = models.DateTimeField(auto_now_add=True)
 
       def __str__(self):
@@ -22,13 +24,61 @@ class QuizzScore(models.Model):
         def __str__(self):
             return f"{self.name};{self.score}"
 
-class Quizz(models.Model):
-    name = models.CharField(max_length = 40)
-    question1 = models.CharField(max_length = 20)
-    question2 = models.BooleanField(default=True)
-    question3 = models.BooleanField(default=True)
-    question4 = models.CharField(max_length = 30)
-    question5 = models.BooleanField(default=True)
+
+class Picture(models.Model):
+        name = models.CharField(max_length=100)
+        image = models.ImageField(upload_to='portfolio/static/portfolio/images', blank=True)
+
+        def __str__(self):
+            return f"{self.name}"
+
     
-    def __str__(self):
-        return f"{self.name}"
+
+class Person(models.Model):
+        name = models.CharField(max_length=40)
+        age = models.IntegerField(null=True)
+        link_linkedin = models.URLField(max_length=400, blank=True)
+        link_lusofona = models.URLField(max_length=400, blank=True)
+
+        def __str__(self):
+            return f"{self.name}"
+
+class Project(models.Model):
+        name_of_projects = models.CharField(max_length=40)
+        image = models.ImageField(upload_to = 'portfolio/static/portfolio/images', null=True)
+        description = models.TextField(blank=True)
+        year = models.IntegerField(default=0)
+        participants_in_projects = models.ManyToManyField(Person, default = "Alone")
+        github = models.TextField(default = "")
+
+        
+        def __str__(self):
+            return f"{self.name_of_projects}"
+
+class ProgrammingLanguages(models.Model):
+        name = models.CharField(max_length=40)
+        image = models.ImageField(upload_to = 'portfolio/static/portfolio/images', null=True)
+        description = models.TextField(blank=True)
+        link_wiki = models.URLField(max_length=400)
+
+        
+        def __str__(self):
+            return f"{self.name}"
+
+class Subject(models.Model):
+        name = models.CharField(max_length=40)
+        year = models.IntegerField(default=0)
+        etcs = models.IntegerField(default=0)
+        description = models.TextField(blank=True)
+        programing_languages = models.ManyToManyField(ProgrammingLanguages)
+        teacher_t = models.ForeignKey(Person, on_delete=models.CASCADE)
+        teacher_p = models.ManyToManyField(Person, related_name='cadeiras')
+        projetos = models.ManyToManyField(Project)
+
+        
+        def __str__(self):
+            return f"{self.name}"
+
+
+
+

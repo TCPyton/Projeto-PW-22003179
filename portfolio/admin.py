@@ -4,3 +4,9 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(Blog)
+admin.site.register(QuizzScore)
+admin.site.register(Picture)
+admin.site.register(Person)
+admin.site.register(Project)
+admin.site.register(ProgrammingLanguages)
+admin.site.register(Subject)

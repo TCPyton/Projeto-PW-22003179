@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Blog, Quizz
+from .models import Blog
 
 
 class BlogForm(ModelForm):
@@ -33,20 +33,3 @@ class BlogForm(ModelForm):
             'data' : 'Meta a data na ordem : YYYY/MM/DD'
         }
 
-
-class QuizzForm(ModelForm):
-    class Meta:
-        model = Quizz
-        fields = '__all__'
-
-        widgets = {
-            'nome' : forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'O seu nome completo: '}),
-        }
-
-        labels = {
-            'question1' : 'O que significa HTML?',
-            'question2' : 'CSS significa Cascading Style Sinal',
-            'question3' : 'Django é uma framework para desenvolvimento rápido para web',
-            'question4' : 'Em que ano foi lançado a framework Django?',
-            'question5' : 'A ultima versão disponível de HTML até agora é o HTML5'
-        }
