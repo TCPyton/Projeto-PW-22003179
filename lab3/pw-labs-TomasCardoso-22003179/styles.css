@@ -1,0 +1,81 @@
+* {
+    font-family: 'Lato', sans-serif;
+    color:black;
+    font-weight: bold;
+}
+
+header{
+    text-align: center;
+}
+
+body{
+    background-color: lightyellow;
+}
+
+
+@media (max-width:600px){
+    .main-div{
+        display:grid;
+        grid-template-areas: 
+        'nav' 
+        'aside';
+    }
+}
+
+@media (min-width:601px){
+    .main-div{
+        display:grid;
+        grid-template-areas:
+        'nav aside';
+    }
+    
+}
+
+nav{
+    padding-right: 100px;
+}
+
+.div-labs{
+    display:grid;
+    grid-template-areas: 'lab1'
+    'lab2' 
+    'lab3' 
+    'lab4';
+    grid-template-columns: 0.7fr 0.7fr 0.7fr 0.7fr;
+    flex-flow: wrap;
+    box-shadow: 10px 10px 15px #888888;
+    border-radius: 2px;
+    background-color: lightcoral;
+    color: black;
+    text-align: left;
+    font-size: 20px;
+}
+#div-lab1{
+    grid-area:lab1;
+    width: 650px;
+    height: 100px;
+}
+
+#div-lab2{
+    grid-area:lab2;
+    height: 100px;
+
+}
+
+#div-lab3{
+    grid-area:lab3;
+    height: 100px;
+}
+
+#div-lab4{
+    grid-area:lab4;
+    height: 100px;
+}
+aside{
+    float:right;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+}
