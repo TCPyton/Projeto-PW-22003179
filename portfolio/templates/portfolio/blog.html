@@ -4,8 +4,11 @@
             <p> 
             {{ blog.author}}
             {{ blog.description}}
-            <a href="{% url 'portfolio:editBlog' blog.id %}" class="btn btn-warning">Editar</a>
-            </p>
-        {% endfor %}
-            <a href="{% url 'portfolio:newBlog' %}" class="btn btn-success btn-block">Novo Post</a>
+                <a href="{% url 'portfolio:editBlog' blog.id %}">Editar</a>
+                <a href="{% url 'portfolio:deleteBlog' blog.id%}">Apagar</a>
+                </p>
+            {% endfor %}
+                <a href="{% url 'portfolio:newBlog' %}">Novo Post</a>
+            
+
     {% endblock %}

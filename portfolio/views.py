@@ -48,7 +48,7 @@ def blog_page_view(request):
 
 def new_blog_post(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('tarefas:login'))
+        return HttpResponseRedirect(reverse('portfolio:login'))
     form = BlogForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -59,6 +59,7 @@ def new_blog_post(request):
     return render(request, 'portfolio/blog_new_post.html', context)
 
 
+
 @login_required
 def edit_blog_post(request, blog_id):
     blog = Blog.objects.get(id=blog_id)
@@ -66,16 +67,20 @@ def edit_blog_post(request, blog_id):
 
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse('portfolio/blog.html'))
+        return HttpResponseRedirect(reverse('portfolio:blog'))
 
     context = {'form': form, 'blog_id': blog_id}
     return render(request, 'portfolio/blog_edit.html', context)
 
+    
+
 def delete_blog_post(request, blog_id):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('tarefas:login'))
-    Blog.objects.get(request=blog_id).delete()
-    return HttpResponseRedirect(reverse('portfolio/blog.html'))
+        return HttpResponseRedirect(reverse('portfolio:blog'))
+    Blog.objects.get(id=blog_id).delete()
+    return HttpResponseRedirect(reverse('portfolio:blog'))
+
+    
 
 def quizz_score(request):
     questScore = 0
@@ -100,7 +105,7 @@ def quizz(request):
         r.save()
         design_graphics(QuizzScore.objects.all())
 
-    return render(request, 'portfolio/quizz.html')
+    return render(request, 'portfolio/web.html')
 
 def design_graphics(objects):
 
@@ -132,6 +137,13 @@ def quizz_page_view(request):
 
     return render(request, 'portfolio/quizz.html', context)
 
+def subjects_view(request):
+    form = SubjectForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('portfolio:about_me'))
+    context = {'subject': Subject.objects.all, 'form': form}
+    return render(request, 'portfolio/about_me.html', context)
 
 def home_page_view(request):
 	return render(request, 'portfolio/layout.html')
@@ -142,18 +154,52 @@ def degree_page_view(request):
 def contacts_page_view(request):
     return render(request, 'portfolio/contacts.html')
 
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
+def projects_page_view(request):
+    form = ProjectForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('portfolio:project'))
+    context = {'project': Project.objects.all, 'form': form}
+    return render(request, 'portfolio/project.html', context)
+
+
+def new_project(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('portfolio:login'))
+    form = ProjectForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('portfolio:project'))
+
+    context = {'form': form }
+
+    return render(request, 'portfolio/new_project.html', context)
+
+
+@login_required
+def edit_project(request, project_id):
+    project = Project.objects.get(id=project_id)
+    form = ProjectForm(request.POST or None, instance=project)
+
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('portfolio:project'))
+
+    context = {'form': form, 'project_id': project_id}
+    return render(request, 'portfolio:edit_project.html', context)
+
+def delete_project(request, project_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('portfolio:project'))
+    Project.objects.get(id=project_id).delete()
+    return HttpResponseRedirect(reverse('portfolio:project'))
+
 
 def web_page_view(request):
     return render(request, 'portfolio/web.html')
 
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
-
-def web_page_view(request):
-    return render(request, 'portfolio/web.html')
-
+def about_me_page_view(request):
+    return render(request, 'portfolio/about_me.html')
 
 def resolution_path(instance, filename):
     return f'users/{instance.id}/'

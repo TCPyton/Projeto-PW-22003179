@@ -48,7 +48,7 @@ class Project(models.Model):
         image = models.ImageField(upload_to = 'portfolio/static/portfolio/images', null=True)
         description = models.TextField(blank=True)
         year = models.IntegerField(default=0)
-        participants_in_projects = models.ManyToManyField(Person, default = "Alone")
+        participants_in_projects = models.ManyToManyField(Person)
         github = models.TextField(default = "")
 
         
@@ -71,11 +71,10 @@ class Subject(models.Model):
         etcs = models.IntegerField(default=0)
         description = models.TextField(blank=True)
         programing_languages = models.ManyToManyField(ProgrammingLanguages)
-        teacher_t = models.ForeignKey(Person, on_delete=models.CASCADE)
-        teacher_p = models.ManyToManyField(Person, related_name='cadeiras')
+        teacher = models.ManyToManyField(Person)
         projetos = models.ManyToManyField(Project)
+        link_lusofona = models.URLField(max_length=405)
 
-        
         def __str__(self):
             return f"{self.name}"
 

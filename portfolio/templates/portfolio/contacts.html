@@ -1,0 +1,16 @@
+{% extends 'portfolio/layout.html' %}
+    {% block main %}
+        <h1 class="pageTitle">Contactos</h1>
+        <br>
+        <br>
+
+        <div class= 'divContacts'>
+            {%for persons in person%}    
+                {%if person.name = 'Tomás Cardoso'}
+                <h2>"{{person.name}}"</h2>
+                    <p>"{{person.age}}"</p>
+                <a href="{{person.link_linkedin}}">Linkedin</a>
+                <a href="{{person.link_lusofona}}">Lusofona</a>
+            {%endfor%}
+        </div>
+    {% endblock %}

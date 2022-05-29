@@ -1,0 +1,31 @@
+{% extends 'portfolio/layout.html' %}
+
+{% block main %}
+        
+
+<h1 class="pageTitle">Licenciatura</h1>
+    <h2 class = year>Cadeiras da Licenciatura</h2>
+    <div class="container">
+        {%for subjects in subject %}   
+            <div><h2>{{subjects.name}}</h2>
+                <h3>{{subjects.etcs}} ects</h3>
+                <p>{{subjects.description}}</p>
+                    <h4>Professores</h4>
+                        {%for teachers in subjects.teacher.all%}
+                            <h3>{{teachers.name}}</h3>
+                            <a href="{{teachers.link_lusofona}}">Página Lusofona</a><br>
+                            <a href="{{teachers.link_linkedin}}">LinkedIn</a><br>
+                        {%endfor%}
+                        <h3>Projetos</h3>
+                        {%for project in subjects.projetos.all%}
+                            <a href="{{subjects.projetos.github}}">{{project.name_of_projects}}</a>
+                        {%endfor%}
+                    <a href="{{subject.link_lusofona}}">Lusofona</a>
+            </div>
+        {%endfor%}      
+    </div>
+
+
+    <h2>Educação</h2>
+
+{% endblock main %}                                             

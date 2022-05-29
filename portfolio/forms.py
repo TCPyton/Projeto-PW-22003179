@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Blog
+from .models import *
 
 
 class BlogForm(ModelForm):
@@ -33,3 +33,13 @@ class BlogForm(ModelForm):
             'data' : 'Meta a data na ordem : YYYY/MM/DD'
         }
 
+
+class SubjectForm(ModelForm):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'

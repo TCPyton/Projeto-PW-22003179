@@ -1,0 +1,31 @@
+{% extends 'portfolio/layout.html' %}
+        {% block main %}
+        <h1 class="pageTitle">Projetos</h1>
+        <br>
+        <br>
+
+        <div class= 'projectsDiv'>
+            {%for projects in project%}  
+
+            <div>
+                <h2>"{{projects.name_of_projects}}"</h2>
+                    <div>
+                        <img src="{{projects.image.url }}" id="imagesProject">
+                    </div>
+                    <div>
+                        <p>{{projects_year}}</p>
+                        <p>{{projects_description}}</p>
+                    </div>
+                    {%for participant in projects.participants_in_projects.all%}
+                    <div>
+                      <p>{{participant.name}}</p>
+                    </div>
+                    {%endfor%}
+                    <a href="{{projects.github}}">Github</a>
+                </a>
+
+            {%endfor%}
+        </div>
+        <a href="{% url 'portfolio:newProject' %}">Novo Project</a>
+        {% endblock %}
+        
