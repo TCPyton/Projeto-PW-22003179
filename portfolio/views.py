@@ -1,7 +1,7 @@
 from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 import datetime
 from matplotlib import pyplot as plt
 from django.contrib.auth import authenticate, login, logout
@@ -137,14 +137,26 @@ def quizz_page_view(request):
 
     return render(request, 'portfolio/quizz.html', context)
 
+
 def subjects_view(request):
-    form = SubjectForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('portfolio:about_me'))
-    context = {'subject': Subject.objects.all, 'form': form}
+    context = {'subject': Subject.objects.all, 'school' : School.objects.all, 'interest' : Interests.objects.all, 'skill' : Skills.objects.all}
     return render(request, 'portfolio/about_me.html', context)
 
+@login_required
+def edit_subjects(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    form = SubjectForm(request.POST or None, instance=subject)
+
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse_lazy('about_me'))
+        
+
+    context = {'form':form, 'subject_id':subject_id}
+    return render(request, 'portfolio/edit_subject.html', context)
+
+
+    
 def home_page_view(request):
 	return render(request, 'portfolio/layout.html')
 
@@ -152,14 +164,15 @@ def degree_page_view(request):
     return render(request, 'portfolio/degree.html')
 
 def contacts_page_view(request):
-    return render(request, 'portfolio/contacts.html')
+    context = {'person' : Person.objects.all}
+    return render(request, 'portfolio/contacts.html',context)
 
 def projects_page_view(request):
     form = ProjectForm(request.POST or None)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('portfolio:project'))
-    context = {'project': Project.objects.all, 'form': form}
+    context = {'project': Project.objects.all, 'tfcs' : Tfc.objects.all}
     return render(request, 'portfolio/project.html', context)
 
 
@@ -185,7 +198,7 @@ def edit_project(request, project_id):
         form.save()
         return HttpResponseRedirect(reverse('portfolio:project'))
 
-    context = {'form': form, 'project_id': project_id}
+    context = {'project_id': project_id}
     return render(request, 'portfolio:edit_project.html', context)
 
 def delete_project(request, project_id):
@@ -196,7 +209,13 @@ def delete_project(request, project_id):
 
 
 def web_page_view(request):
-    return render(request, 'portfolio/web.html')
+    form = WebForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('portfolio:web'))
+    context = {'programming_languages' : ProgrammingLanguages.objects.all, 'noticias' : News.objects.all, 'project': Project.objects.all}
+    return render(request, 'portfolio/web.html', context)
+
 
 def about_me_page_view(request):
     return render(request, 'portfolio/about_me.html')

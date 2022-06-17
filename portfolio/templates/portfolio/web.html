@@ -1,22 +1,47 @@
 {% extends 'portfolio/layout.html' %}
 
 {% block main %}
+
+<h1 class="pageTitle">Tecnologias</h1>
+
+    <div class="container">
+        {%for programming_languages in programming_languages %}
+        <div class="classes">
+            <a class = "title_class" href = "{{programming_languages.link_wiki}}">
+                <h2>{{programming_languages.name}}</h2>
+                    <br>
+                    <p class = "text_tec">{{programming_languages.description}}</p>
+                </h2>
+                <div>
+                    <img src="{{programming_languages.image.url}}" id="image_school">
+                </div>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+    
+
+<h1 class="pageTitle">Noticias</h1>
+        <div class= 'container'>
+            {%for noticias in noticias%}  
+            <div class = "project_container">
+                <a class = "title_class" href = "{{noticias.link_news}}"><h2 class = "class_projects">"{{noticias.title}}"</h2></a>
+                    <div>
+                        <img src="{{noticias.image.url}}" id="imagesProject">
+                    </div>
+                    <div class = "project_participants">
+                        <p>{{noticias.text}}</p>
+                    </div>
+            </div>
+            {%endfor%}
+        </div>
+            
+
+
+        
 <h1 class="pageTitle">Quizz</h1>
-    <br>
-    <br>
 <div class="container">
-    tecnologias existentes
-    front-end
-    back-end
-    outras
-    Sobre este website
-    estrutura do site
-    diagrama DER
-    tecnologias usadas
-    padrões usados
-    laboratórios
-    notícias
-    exemplos e técnicas
+
 
     <div class="quizz">
         <form action="" method="POST" enctype="multipart/form-data">
@@ -39,6 +64,5 @@
 
 
 </div>
-
 
 {% endblock %}

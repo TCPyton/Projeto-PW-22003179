@@ -10,7 +10,7 @@ class BlogForm(ModelForm):
 
         widgets = {
 
-            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'O seu nome completo: '}),
+            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'O seu nome completo '}),
             'title' : forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'Insira aqui o title do seu novo post.'}),
             'description' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Faça uma breve descrição do seu post.'}),
             'link' : forms.URLInput(attrs={'class' : 'form-control', 'placeholder' : 'www.google.com'})
@@ -39,7 +39,14 @@ class SubjectForm(ModelForm):
         model = Subject
         fields = '__all__'
 
+
+
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
+        fields = '__all__'
+
+class WebForm(ModelForm):
+    class Meta:
+        model = News
         fields = '__all__'

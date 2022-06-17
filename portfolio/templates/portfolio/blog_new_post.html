@@ -1,7 +1,7 @@
 {% extends 'portfolio/layout.html' %}
 {% block main %}
 <h3>Nova Blog</h3>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
 
